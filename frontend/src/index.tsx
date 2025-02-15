@@ -1,15 +1,13 @@
 /* @refresh reload */
 import { render } from 'solid-js/web'
-import App from './App.tsx'
 import { Router, Route } from "@solidjs/router"
-import Test from './pages/Test.tsx'
 import "./index.css"
+import Auth from './pages/Auth.tsx'
 
 const root = document.getElementById('root')
 
 render(() => (
   <Router>
-    <Route path="/" component={App} />
-    <Route path="/test" component={Test} />
+    <Route path="/" component={Auth} />
   </Router>
 ), root!)
