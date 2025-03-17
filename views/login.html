@@ -1,0 +1,45 @@
+{{define "content"}}
+<h1>Login</h1>
+<form>
+  <input required class="margined" type="password" name="password" placeholder="Enter password" value="">
+  <button id="submit" type="button" onclick="login()">Submit</button>
+  <p id="error_msg" style="color: red;"></p>
+</form>
+<script>
+  let loading = false
+  async function login() {
+    if (loading) {
+      return
+    }
+    loading = true
+    try {
+      let errorMsg = document.getElementById("error_msg")
+      const password = document.getElementsByName("password")[0].value
+      console.log("Password", password)
+      let response = await fetch("/api/login", {
+        method: "POST",
+        body: JSON.stringify({password: password})
+      })
+      switch (response.status) {
+        case 200:
+          alert("Login successful")
+          window.location.href = "/products"
+          break
+        case 400:
+          errorMsg.textContent = "Wrong password"
+          break
+        case 500:
+          errorMsg.textContent = "An error occured. Please try again"
+      }
+    } catch (err) {
+      console.log(err)
+    }
+    loading = false
+  }
+</script>
+<style>
+  .margined {
+    margin-bottom: 10px;
+  }
+</style>
+{{end}}
