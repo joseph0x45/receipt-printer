@@ -1,10 +1,17 @@
 {{define "product"}}
-<div>
-  <p>ID</p>
-  <p>Name</p>
-  <p>Media</p>
-  <p>Price</p>
-  <p>BulkPrice</p>
-  <p>InStock</p>
+<div class="card " style="width: 20rem;">
+  <img src="{{.Media}}" alt="Card example image">
+
+  <div class="card-body">
+    <h4 class="card-title">{{.Name}}</h4>
+    <h5 class="card-subtitle">{{.Price}}</h5>
+  </div>
 </div>
+<style>
+  .form_container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+</style>
 {{end}}

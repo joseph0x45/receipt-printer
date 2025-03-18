@@ -36,16 +36,24 @@ func NewProductHandler(
 }
 
 func (h *ProductHandler) renderProductsPage(w http.ResponseWriter, _ *http.Request) {
-	tmpl, err := template.ParseFS(h.viewsFS, "views/layout.html", "views/products.html")
+	tmpl, err := template.ParseFS(h.viewsFS, "views/layout.html", "views/products.html", "views/product.html")
 	if err != nil {
 		h.logger.Error("Error loading template:" + err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+  products, err := h.productsRepo.GetAll()
+  if err!= nil {
+    h.logger.Error(err.Error())
+    w.WriteHeader(http.StatusInternalServerError)
+    return
+  }
 	pageData := struct {
 		Title string
+    Products []models.Product
 	}{
 		Title: "Products",
+    Products: products,
 	}
 	err = tmpl.Execute(w, pageData)
 	if err != nil {
