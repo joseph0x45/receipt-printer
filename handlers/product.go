@@ -53,8 +53,8 @@ func (h *ProductHandler) renderProductsPage(w http.ResponseWriter, _ *http.Reque
 	return
 }
 
-func (h *ProductHandler) createProduct(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFS(h.viewsFS, "views/layout.html", "views/create-product.html")
+func (h *ProductHandler) renderAddProductPage(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFS(h.viewsFS, "views/layout.html", "views/add-product.html")
 	if err != nil {
 		h.logger.Error("Error loading template:" + err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
@@ -76,6 +76,6 @@ func (h *ProductHandler) createProduct(w http.ResponseWriter, r *http.Request) {
 
 func (h *ProductHandler) RegisterRoutes(r chi.Router) {
 	r.With(h.authMiddleware.Authenticate).
-		Get("/admin/create-product", h.createProduct)
+		Get("/add-product", h.renderAddProductPage)
 	r.Get("/products", h.renderProductsPage)
 }

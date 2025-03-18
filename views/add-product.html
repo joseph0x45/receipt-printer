@@ -1,0 +1,30 @@
+{{define "content"}}
+<div class="container">
+  <h3>Add a new product</h3>
+  <form class="form_container">
+    <input id="name" placeholder="Name" type="text" required />
+    <input id="media" placeholder="Media" type="text" required />
+    <input id="price" placeholder="Price" type="number" min="0" step="100" />
+    <input id="bulk_price" placeholder="BulkPrice" type="number" min="0" step="100" />
+    <input id="in_stock" placeholder="InStock" type="number" min="0" step="1" />
+    <button id="submit_button" type="button">Add</button>
+  </form>
+  <a href="/products">List of products</a>
+</div>
+<style>
+  .form_container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+</style>
+<script>
+  let loading = false
+  async function addProduct(){
+    if (loading){
+      return
+    }
+
+  }
+</script>
+{{end}}

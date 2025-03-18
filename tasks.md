@@ -1,0 +1,8 @@
+- [ ] View all products
+- [ ] Create product
+- [ ] Update product
+- [ ] Delete product?
+- [ ] Start a new bill
+- [ ] View bill information and update
+- [ ] Save bill
+- [ ] Print bill

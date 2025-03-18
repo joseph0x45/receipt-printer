@@ -23,19 +23,19 @@ func NewAuthMiddleware(
 
 func (m *AuthMiddleware) Authenticate(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		sessionID := r.Header.Get("Authorization")
-		if sessionID == "" {
-			w.WriteHeader(http.StatusUnauthorized)
+		sessionCookie, err := r.Cookie("session")
+		if err != nil {
+			http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
 			return
 		}
-		session, err := m.sessionRepo.GetByID(sessionID)
+		session, err := m.sessionRepo.GetByID(sessionCookie.Value)
 		if err != nil {
 			m.logger.Error(err.Error())
-			w.WriteHeader(http.StatusUnauthorized)
+			http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
 			return
 		}
 		if session == nil {
-			w.WriteHeader(http.StatusUnauthorized)
+			http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
 			return
 		}
 		next.ServeHTTP(w, r)
