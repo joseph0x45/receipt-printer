@@ -1,5 +1,5 @@
 - [ ] View all products
-- [ ] Create product
+- [x] Create product
 - [ ] Update product
 - [ ] Delete product?
 - [ ] Start a new bill

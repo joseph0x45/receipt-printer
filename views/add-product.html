@@ -2,13 +2,19 @@
 <div class="container">
   <h3>Add a new product</h3>
   <form class="form_container">
-    <input id="name" placeholder="Name" type="text" required />
-    <input id="media" placeholder="Media" type="text" required />
-    <input id="price" placeholder="Price" type="number" min="0" step="100" />
-    <input id="bulk_price" placeholder="BulkPrice" type="number" min="0" step="100" />
-    <input id="in_stock" placeholder="InStock" type="number" min="0" step="1" />
-    <button id="submit_button" type="button">Add</button>
+    <label for="">Name</label>
+    <input id="name" type="text" required />
+    <label for="">Media URL</label>
+    <input id="media" type="text" required />
+    <label for="">Price</label>
+    <input id="price" type="number" min="0" step="100" />
+    <label for="">Bulk price</label>
+    <input id="bulk_price" type="number" min="0" step="100" />
+    <label for="">In Stock</label>
+    <input id="in_stock" type="number" min="0" step="1" />
+    <button id="submit_button" type="button" onclick="addProduct()">Add</button>
   </form>
+  <p id="error_msg" style="color: red;"></p>
   <a href="/products">List of products</a>
 </div>
 <style>
@@ -20,11 +26,49 @@
 </style>
 <script>
   let loading = false
-  async function addProduct(){
-    if (loading){
-      return
+  let errorMsg = document.getElementById("error_msg")
+  async function addProduct() {
+    try {
+      if (loading) {
+        return
+      }
+      let name = document.getElementById("name")
+      let media = document.getElementById("media")
+      let price = document.getElementById("price")
+      let bulk_price = document.getElementById("bulk_price")
+      let in_stock = document.getElementById("in_stock")
+      let payload = {
+        name: name.value,
+        media: media.value,
+        price: parseInt(price.value),
+        bulk_price: parseInt(bulk_price.value),
+        in_stock: parseInt(in_stock.value)
+      }
+      let response = await fetch(
+        "/api/products",
+        {
+          method: "POST",
+          body: JSON.stringify(payload)
+        }
+      )
+      switch (response.status) {
+        case 201:
+          alert("Product created")
+          name.value = ""
+          media.value = ""
+          price.value = 0
+          bulk_price.value = 0
+          in_stock.value = 0
+          break
+        case 500:
+          errorMsg.textContent = "An error occured. Please try again"
+      }
+    } catch (err) {
+      console.log(err)
+      errorMsg.textContent = "An error occured. Please try again"
+    } finally {
+      loading = false
     }
-
   }
 </script>
 {{end}}
