@@ -1,5 +1,4 @@
 export type BillItemT = {
-  product_id: string
   product_name: string
   quantity: number
   total_price: number
